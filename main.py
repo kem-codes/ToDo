@@ -199,4 +199,4 @@ uncross_button.grid(row=0, column=3, padx=20)
 delete_crossed_button.grid(row=0, column=4)
 
 # Main Loop
-root.mainloop
+root.mainloop()
