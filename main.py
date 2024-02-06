@@ -171,3 +171,33 @@ def delete_list():
     confirmation = messagebox.askyesno("Confirmation", "Are you sure you want to delete the entire list?")
     if confirmation:
         my_list.delete(0, END)
+
+# create menu
+my_menu = Menu(root)
+root.config(menu=my_menu)
+
+# add items to the menu
+file_menu = Menu(my_menu, tearoff=False)
+my_menu.add_cascade(label="File", menu=file_menu)
+
+# add dropdown items
+file_menu.add_command(label="Save List", command=save_list)
+file_menu.add_command(label="Open List", command=open_list)
+file_menu.add_separator()
+file_menu.add_command(label="Clear List", command=delete_list)
+
+# add some buttons
+delete_button = Button(button_frame, text="Delete Item", command=delete_item)
+add_button = Button(button_frame, text="Add Item", command=add_item)
+cross_off_button = Button(button_frame, text="Cross off Item", command=cross_off_item)
+uncross_button = Button(button_frame, text="Uncross Item", command=uncross_item)
+delete_crossed_button = Button(button_frame, text="Delete crossed", command=delete_crossed)
+
+delete_button.grid(row=0, column=0)
+add_button.grid(row=0, column=1, padx=20)
+cross_off_button.grid(row=0, column=2)
+uncross_button.grid(row=0, column=3, padx=20)
+delete_crossed_button.grid(row=0, column=4)
+
+# Main Loop
+root.mainloop
