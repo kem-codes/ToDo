@@ -56,3 +56,28 @@ my_list = Listbox(
 )
 
 my_list.pack(side=LEFT, fill=BOTH)
+
+
+# Create scrollbar
+my_scrollbar = Scrollbar(my_frame)
+my_scrollbar.pack(side=RIGHT, fill=BOTH)
+
+# Add scrollbar
+my_list.config(yscrollcommand=my_scrollbar.set)
+my_scrollbar.config(command=my_list.yview)
+
+
+
+# Create entry box to add to the list
+my_entry = Entry(
+    root,
+    font=("Helvetica", 24),
+    width=30,
+    bg="#e0e0e0",
+    fg="black"
+)
+my_entry.pack(pady=10)
+
+# Create a button frame
+button_frame = Frame(root, bg="darkblue")
+button_frame.pack(pady=10)
