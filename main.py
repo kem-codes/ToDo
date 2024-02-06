@@ -115,3 +115,59 @@ def delete_crossed():
     crossed_indices = [i for i in range(my_list.size()) if my_list.itemcget(i, "fg") == "#888888"]
     for index in reversed(crossed_indices):
         my_list.delete(index)
+
+def save_list():
+    file_name = filedialog.asksaveasfilename(
+        initialdir="C:/gui/data",
+        title="Save File",
+        filetypes=(("Dat Files", ".dat"), ("All Files", ".*"))
+    )
+    if file_name:
+        if not file_name.endswith(".dat"):
+            file_name = f'{file_name}.dat'
+
+        # Delete crossed off items before saving
+        crossed_indices = [i for i in range(my_list.size()) if my_list.itemcget(i, "fg") == "#888888"]
+        for index in reversed(crossed_indices):
+            my_list.delete(index)
+
+        # Grab all the items from the list
+        items = [{"text": my_list.get(i), "crossed": my_list.itemcget(i, "fg") == "#888888"} for i in range(my_list.size())]
+
+        # Open the file using a context manager
+        with open(file_name, 'wb') as output_file:
+            # Actually add the items to the file
+            pickle.dump(items, output_file)
+
+def open_list():
+    file_name = filedialog.askopenfilename(
+        initialdir="C:/gui/data",
+        title="Open File",
+        filetypes=(("Dat Files", ".dat"), ("All Files", ".*"))
+    )
+    if file_name:
+        # delete currently open list
+        my_list.delete(0, END)
+
+        # open the file
+        try:
+            with open(file_name, 'rb') as input_file:
+                # load the data from the file
+                items = pickle.load(input_file)
+
+                # output stuff to the screen
+                for item in items:
+                    text = item["text"]
+                    crossed = item["crossed"]
+
+                    my_list.insert(END, text)
+                    if crossed:
+                        my_list.itemconfig(END - 1, fg="#888888")
+
+        except pickle.UnpicklingError:
+            messagebox.showerror("Error", "Invalid file format")
+
+def delete_list():
+    confirmation = messagebox.askyesno("Confirmation", "Are you sure you want to delete the entire list?")
+    if confirmation:
+        my_list.delete(0, END)
