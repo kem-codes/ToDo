@@ -82,7 +82,6 @@ my_entry.pack(pady=10)
 button_frame = Frame(root, bg="darkblue")
 button_frame.pack(pady=10)
 
-  FUNCTIONS
 def delete_item():
     selected_indices = my_list.curselection()
     if not selected_indices:
