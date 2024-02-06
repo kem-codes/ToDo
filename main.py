@@ -81,3 +81,37 @@ my_entry.pack(pady=10)
 # Create a button frame
 button_frame = Frame(root, bg="darkblue")
 button_frame.pack(pady=10)
+
+  FUNCTIONS
+def delete_item():
+    selected_indices = my_list.curselection()
+    if not selected_indices:
+        return
+
+    confirmation = messagebox.askyesno("Confirmation", "Are you sure you want to delete the selected item(s)?")
+    if confirmation:
+        for index in reversed(selected_indices):
+            my_list.delete(index)
+
+def add_item():
+    task = my_entry.get()
+    if task:
+        my_list.insert(END, task)
+        my_entry.delete(0, END)
+
+def cross_off_item():
+    selected_indices = my_list.curselection()
+    for index in selected_indices:
+        my_list.itemconfig(index, fg="#888888")
+    my_list.selection_clear(0, END)
+
+def uncross_item():
+    selected_indices = my_list.curselection()
+    for index in selected_indices:
+        my_list.itemconfig(index, fg="#464646")
+    my_list.selection_clear(0, END)
+
+def delete_crossed():
+    crossed_indices = [i for i in range(my_list.size()) if my_list.itemcget(i, "fg") == "#888888"]
+    for index in reversed(crossed_indices):
+        my_list.delete(index)
